@@ -1,0 +1,33 @@
+/* Shared pixel chamfer frame — Warm Ember */
+:root {
+  --pixel-step: 3px;
+  --pixel-step-sm: 2px;
+}
+
+.pixelFrame {
+  border-radius: 0;
+  clip-path: polygon(
+    var(--pixel-step) 0,
+    calc(100% - var(--pixel-step)) 0,
+    100% var(--pixel-step),
+    100% calc(100% - var(--pixel-step)),
+    calc(100% - var(--pixel-step)) 100%,
+    var(--pixel-step) 100%,
+    0 calc(100% - var(--pixel-step)),
+    0 var(--pixel-step)
+  );
+}
+
+.pixelFrameSm {
+  border-radius: 0;
+  clip-path: polygon(
+    var(--pixel-step-sm) 0,
+    calc(100% - var(--pixel-step-sm)) 0,
+    100% var(--pixel-step-sm),
+    100% calc(100% - var(--pixel-step-sm)),
+    calc(100% - var(--pixel-step-sm)) 100%,
+    var(--pixel-step-sm) 100%,
+    0 calc(100% - var(--pixel-step-sm)),
+    0 var(--pixel-step-sm)
+  );
+}

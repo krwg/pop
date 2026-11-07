@@ -1,0 +1,157 @@
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-boot);
+  display: grid;
+  place-items: center;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+  animation: bootEnter 480ms var(--ease-out) both;
+}
+
+.boot:focus-visible {
+  outline: none;
+}
+
+.exiting {
+  animation: bootExit 520ms var(--ease-in-out) forwards;
+  pointer-events: none;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 1.75rem;
+  padding: 2rem;
+}
+
+.mark {
+  display: grid;
+  grid-template-columns: 14px 18px 14px;
+  align-items: end;
+  gap: 8px;
+  height: 56px;
+  opacity: 0;
+  animation: markIn 900ms var(--ease-out) 120ms forwards;
+}
+
+.mark span {
+  display: block;
+  width: 100%;
+  background: var(--color-accent);
+  transform-origin: bottom center;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.mark span:nth-child(1) {
+  height: 62%;
+  animation: bladeRise 800ms var(--ease-out) 160ms both;
+}
+
+.mark span:nth-child(2) {
+  height: 100%;
+  background: var(--color-accent-soft);
+  animation: bladeRise 800ms var(--ease-out) 280ms both;
+}
+
+.mark span:nth-child(3) {
+  height: 48%;
+  animation: bladeRise 800ms var(--ease-out) 400ms both;
+}
+
+.word {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+  letter-spacing: 0.26em;
+  text-indent: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-accent-soft);
+  opacity: 0;
+  animation: wordIn 1000ms var(--ease-out) 700ms forwards;
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  letter-spacing: 0.06em;
+  opacity: 0;
+  animation: hintIn 700ms var(--ease-out) 1400ms forwards;
+}
+
+@keyframes bootEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bootExit {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes markIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bladeRise {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hintIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot,
+  .mark,
+  .mark span,
+  .word,
+  .hint,
+  .exiting {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .mark,
+  .mark span,
+  .word,
+  .hint {
+    opacity: 1;
+    transform: none;
+  }
+}

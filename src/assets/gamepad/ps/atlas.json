@@ -1,0 +1,68 @@
+{
+    "stick-l":  {
+                    "left":  26.562,
+                    "width":  11.719,
+                    "top":  52.778,
+                    "height":  20.833
+                },
+    "stick-r":  {
+                    "left":  54.688,
+                    "width":  11.719,
+                    "top":  52.778,
+                    "height":  20.833
+                },
+    "btn-y":  {
+                  "left":  68.75,
+                  "width":  7.422,
+                  "top":  24.306,
+                  "height":  13.194
+              },
+    "btn-x":  {
+                  "left":  64.062,
+                  "width":  7.422,
+                  "top":  32.639,
+                  "height":  13.194
+              },
+    "btn-b":  {
+                  "left":  73.438,
+                  "width":  7.422,
+                  "top":  32.639,
+                  "height":  13.194
+              },
+    "btn-a":  {
+                  "left":  68.75,
+                  "width":  7.422,
+                  "top":  40.972,
+                  "height":  13.194
+              },
+    "dpad":  {
+                 "left":  23.438,
+                 "width":  11.719,
+                 "top":  25,
+                 "height":  20.833
+             },
+    "view":  {
+                 "left":  40.625,
+                 "width":  5.469,
+                 "top":  41.667,
+                 "height":  6.944
+             },
+    "menu":  {
+                 "left":  53.125,
+                 "width":  5.469,
+                 "top":  41.667,
+                 "height":  6.944
+             },
+    "lb":  {
+               "left":  22.656,
+               "width":  14.062,
+               "top":  9.722,
+               "height":  9.028
+           },
+    "rb":  {
+               "left":  62.5,
+               "width":  14.062,
+               "top":  9.722,
+               "height":  9.028
+           }
+}

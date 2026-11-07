@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="worldBg" id="world-bg" aria-hidden="true"></div>
+    <div class="worldBg worldBgNext" id="world-bg-next" aria-hidden="true"></div>
+
+    <div class="intro" id="intro">
+      <div class="introOverlay" id="intro-overlay">
+        <div class="introMark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="introWord">PILLARS OF PIXELS</p>
+      </div>
+    </div>
+
+    <div class="toast pixelFrame" id="toast" hidden>
+      <span class="toastIcon" aria-hidden="true">
+        <img
+          class="toastPad"
+          src="./icons/xbox-controller.svg"
+          width="26"
+          height="26"
+          alt=""
+        />
+      </span>
+      <span class="toastText" data-i18n="toastPad">Для этой игры лучше использовать геймпад</span>
+    </div>
+
+    <div class="screen menuScreen" id="menu-screen" hidden>
+      <div class="menuCard pixelFrame">
+        <p class="eyebrow">PILLARS OF PIXELS</p>
+        <h1 class="menuTitle">2048</h1>
+        <div class="menuActions" data-pad-list>
+          <button type="button" class="btn btnGhost pixelFrame" id="btn-new" data-pad-item>
+            <span data-i18n="newGame">Новая игра</span>
+          </button>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            id="btn-continue"
+            data-pad-item
+            disabled
+          >
+            <span data-i18n="continue">Продолжить</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="btn-stats" data-pad-item>
+            <span data-i18n="stats">Статистика</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="btn-about" data-pad-item>
+            <span data-i18n="about">Об игре</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="btn-exit" data-pad-item>
+            <span data-i18n="exit">Выйти</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="mode-screen" hidden>
+      <div class="menuCard pixelFrame">
+        <h2 class="modalTitle" data-i18n="modeTitle">Новая игра</h2>
+        <div class="menuActions" data-pad-list>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            data-start="classic"
+            data-pad-item
+          >
+            <span data-i18n="classic">Classic · 4×4</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" data-start="mini" data-pad-item>
+            <span data-i18n="mini">Mini · 3×3</span>
+          </button>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            data-back="menu"
+            data-pad-item
+          >
+            <span data-i18n="back">Назад</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="stats-screen" hidden>
+      <div class="menuCard menuCardWide pixelFrame">
+        <h2 class="modalTitle" data-i18n="statsTitle">Статистика</h2>
+        <div class="statsGrid">
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statBestClassic">Рекорд Classic</span>
+            <span class="statValue" id="stat-best-classic">0</span>
+          </div>
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statBestMini">Рекорд Mini</span>
+            <span class="statValue" id="stat-best-mini">0</span>
+          </div>
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statGames">Игр сыграно</span>
+            <span class="statValue" id="stat-games">0</span>
+          </div>
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statWins">Побед (2048+)</span>
+            <span class="statValue" id="stat-wins">0</span>
+          </div>
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statPeak">Лучшая плитка</span>
+            <span class="statValue" id="stat-peak">2</span>
+          </div>
+          <div class="statBlock pixelFrame">
+            <span class="statLabel" data-i18n="statTotal">Всего очков</span>
+            <span class="statValue" id="stat-total">0</span>
+          </div>
+        </div>
+        <div class="menuActions" data-pad-list>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            data-back="menu"
+            data-pad-item
+          >
+            <span data-i18n="back">Назад</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="settings-screen" hidden>
+      <div class="menuCard pixelFrame">
+        <h2 class="modalTitle" data-i18n="settingsTitle">Настройки</h2>
+        <div class="volumeStack">
+          <div class="volumeBlock pixelFrame" data-pad-item data-pad-sfx>
+            <span class="volumeLabel" data-i18n="sfx">Звук</span>
+            <div
+              class="pixelSlider"
+              id="pixel-slider"
+              data-sync-sfx
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="55"
+              tabindex="0"
+            >
+              <div class="pixelSliderFill" id="pixel-slider-fill" data-sync-sfx-fill></div>
+            </div>
+            <span class="volValue" id="vol-value" data-sync-sfx-val>55%</span>
+            <input id="volume" type="range" min="0" max="100" value="55" hidden />
+          </div>
+          <div class="volumeBlock pixelFrame" data-pad-item data-pad-music>
+            <span class="volumeLabel" data-i18n="music">Музыка</span>
+            <div
+              class="pixelSlider"
+              id="music-slider"
+              data-sync-music
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="40"
+              tabindex="0"
+            >
+              <div class="pixelSliderFill" id="music-slider-fill" data-sync-music-fill></div>
+            </div>
+            <span class="volValue" id="music-value" data-sync-music-val>40%</span>
+            <input id="music-volume" type="range" min="0" max="100" value="40" hidden />
+          </div>
+          <div class="langBlock">
+            <span class="volumeLabel" data-i18n="language">Язык</span>
+            <div class="langRow" data-pad-list>
+              <button
+                type="button"
+                class="btn btnGhost pixelFrame langBtn"
+                data-pad-item
+                data-lang-option="ru"
+                id="lang-ru"
+              >
+                <span data-i18n="langRu">Русский</span>
+              </button>
+              <button
+                type="button"
+                class="btn btnGhost pixelFrame langBtn"
+                data-pad-item
+                data-lang-option="en"
+                id="lang-en"
+              >
+                <span data-i18n="langEn">English</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="menuActions" style="margin-top: 1rem" data-pad-list>
+          <button type="button" class="btn btnGhost pixelFrame" id="settings-back" data-pad-item>
+            <span data-i18n="back">Назад</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="about-screen" hidden>
+      <div class="menuCard pixelFrame">
+        <h2 class="modalTitle" data-i18n="aboutTitle">Об игре</h2>
+        <p class="aboutMeta" data-i18n="aboutMeta">[0.4.1]</p>
+        <div class="menuActions" data-pad-list>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            data-back="menu"
+            data-pad-item
+          >
+            <span data-i18n="back">Назад</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="playCurtain" id="play-curtain" aria-hidden="true"></div>
+
+    <main class="play" id="play" hidden>
+      <section class="stage">
+        <div class="boardCol">
+          <div class="boardGlow" id="board-glow" aria-hidden="true"></div>
+          <div class="boardShell pixelFrame" id="board-shell">
+            <div class="gridBg" id="grid-bg"></div>
+            <div class="tiles" id="tiles"></div>
+            <div class="floatScore" id="float-score" hidden></div>
+          </div>
+        </div>
+
+        <aside class="sideCol">
+          <header class="sideHead">
+            <h1 class="gameTitle">2048</h1>
+            <p class="modeLabel" id="mode-label">Classic · 4×4</p>
+          </header>
+
+          <div class="stats">
+            <div class="stat pixelFrame">
+              <span class="statLabel" data-i18n="score">Счёт</span>
+              <span class="statValue" id="score">0</span>
+            </div>
+            <div class="stat pixelFrame">
+              <span class="statLabel" data-i18n="best">Рекорд</span>
+              <span class="statValue" id="best">0</span>
+            </div>
+          </div>
+
+          <div class="sideActions" data-pad-list data-pad-play>
+            <button type="button" class="btn btnGhost pixelFrame" id="btn-undo" data-pad-item>
+              <span data-i18n="undo">Отмена хода</span>
+            </button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="modal" id="pause-modal" hidden>
+      <div class="modalCard pixelFrame">
+        <h2 class="modalTitle" data-i18n="pause">Пауза</h2>
+        <div class="menuActions" data-pad-list>
+          <button type="button" class="btn btnGhost pixelFrame" id="pause-resume" data-pad-item>
+            <span data-i18n="resume">Продолжить</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="pause-settings" data-pad-item>
+            <span data-i18n="settings">Настройки</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="pause-menu" data-pad-item>
+            <span data-i18n="toMenu">В главное меню</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="pause-exit" data-pad-item>
+            <span data-i18n="exit">Выйти</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="end-modal" hidden>
+      <div class="modalCard endCard pixelFrame">
+        <h2 class="modalTitle" id="end-title">Победа</h2>
+        <p class="endScore">
+          <span data-i18n="endScore">Счёт:</span> <span id="end-score">0</span>
+        </p>
+        <div class="menuActions" data-pad-list>
+          <button
+            type="button"
+            class="btn btnGhost pixelFrame"
+            id="end-continue"
+            data-pad-item
+            hidden
+          >
+            <span data-i18n="playOn">Играть дальше</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="end-restart" data-pad-item>
+            <span data-i18n="restart">Заново</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="end-menu" data-pad-item>
+            <span data-i18n="toMenu">В главное меню</span>
+          </button>
+          <button type="button" class="btn btnGhost pixelFrame" id="end-exit" data-pad-item>
+            <span data-i18n="exit">Выйти</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./i18n.js"></script>
+    <script src="./audio.js"></script>
+    <script src="./game.js"></script>
+  </body>
+</html>

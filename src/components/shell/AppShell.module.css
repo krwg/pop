@@ -1,0 +1,43 @@
+.shell {
+  position: relative;
+  z-index: var(--z-shell);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.main:focus {
+  outline: none;
+}
+
+.outlet {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  animation: outletIn 420ms var(--ease-out);
+}
+
+@keyframes outletIn {
+  from {
+    opacity: 0.72;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outlet {
+    animation: none;
+  }
+}

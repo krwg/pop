@@ -1,0 +1,74 @@
+.plane {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  background: var(--color-bg-deep);
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  image-rendering: pixelated;
+  opacity: 0;
+  transform: scale(1.02);
+  animation: artIn 900ms var(--ease-out) 60ms forwards;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--color-bg-deep) 88%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg-deep) 62%, transparent) 28%,
+      color-mix(in srgb, var(--color-bg-deep) 22%, transparent) 52%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-bg-deep) 45%, transparent) 0%,
+      transparent 24%,
+      transparent 70%,
+      color-mix(in srgb, var(--color-bg-deep) 58%, transparent) 100%
+    );
+  pointer-events: none;
+}
+
+@keyframes artIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .art {
+    object-position: 62% center;
+  }
+
+  .veil {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-bg-deep) 55%, transparent) 0%,
+        color-mix(in srgb, var(--color-bg-deep) 28%, transparent) 30%,
+        color-mix(in srgb, var(--color-bg-deep) 45%, transparent) 62%,
+        color-mix(in srgb, var(--color-bg-deep) 82%, transparent) 100%
+      );
+  }
+}

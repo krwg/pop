@@ -1,0 +1,27 @@
+.section {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  /* ~600×900 covers scale down; keep portrait columns */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11.5rem), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  max-width: 72rem;
+  justify-content: start;
+}
+
+.item {
+  min-width: 0;
+  max-width: 18.75rem; /* 300px display cap; source art is 600×900 */
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  }
+
+  .item {
+    max-width: 22.5rem;
+  }
+}
